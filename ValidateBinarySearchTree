@@ -26,7 +26,7 @@ public class Solution {
     
 public boolean isBST(TreeNode node, int min, int max){
     if (node == null) return true;
-    if(node.val < min || node.val > max)
+    if(node.val < min || node.val > max)// this is important
         return false;
     //Check this node!
     //This algorithm doesn't recurse with null Arguments.
@@ -40,7 +40,7 @@ public boolean isBST(TreeNode node, int min, int max){
 		boolean leftIsBST = false;
 		if(node.left != null){
 			if(node.left.val < node.val ){
-				leftIsBST = isBST(node.left, min, node.val-1);
+				leftIsBST = isBST(node.left, min, node.val-1);//why -1?
 			}else {
 				leftIsBST = false;
 			}
@@ -51,7 +51,7 @@ public boolean isBST(TreeNode node, int min, int max){
 		boolean rightIsBST = false;
 		if(node.right != null){
 			if(node.right.val > node.val ){
-				rightIsBST = isBST(node.right, node.val+1, max);
+				rightIsBST = isBST(node.right, node.val+1, max);// why +1？
 			}else{
 				rightIsBST = false;
 			}
