@@ -62,4 +62,13 @@ public boolean isBST(TreeNode node, int min, int max){
         return leftIsBST && rightIsBST;
 	
 	}
+	
+	public boolean checkBST(TreeNode root, int min, int max) {// what's the diff of this method?
+	    if(root == null)
+			return true;
+		if(min < root.val && root.val < max) 
+			return checkBST(root.left, min, root.val) && checkBST(root.right, root.val, max);
+		else
+			return false;
+	}
 }
