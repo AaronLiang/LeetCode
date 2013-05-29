@@ -22,12 +22,13 @@ public class Solution {
     public int max(TreeNode node){
       if(node == null) return 0;
       
-      return 1 + Math.max(max(node.left), max(mode.right));
+      return 1 + Math.max(max(node.left), max(node.right));
     }
     
-    public int min(TreeNode node{
+    public int min(TreeNode node){
       if (node == null) return 0;
       
-      return 1 + Math.min(min(node.left), min(mode.right));
+      return 1 + Math.min(min(node.left), min(node.right));
     }
+}
 }
