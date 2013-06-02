@@ -14,26 +14,13 @@ The solution set must not contain duplicate triplets.
     (-1, 0, 1)
     (-1, -1, 2)
     
-        public ArrayList<ArrayList<Integer>> threeSum(int[] num) {
+        public ArrayList<ArrayList<Integer>> threeSum(int[] num1) {
         // Start typing your Java solution below
         // DO NOT write main() function
         
         ArrayList<ArrayList<Integer>> lists = new ArrayList<ArrayList<Integer>>();
-        
-        if(num.length < 3) return lists;
-        int counter = 0,index = 0, zeros = 0; 
-        
-        Arrays.sort(num);
-        int[] num1 = num;
-        
-        if(num[0] == 0 && num[1] ==0 && num[2] ==0){
-            ArrayList<Integer> array = new ArrayList<Integer>();
-            array.add(0);
-            array.add(0);
-            array.add(0);
-            lists.add(array);
-            return lists;
-        }
+        if(num1.length < 3) return lists;
+        Arrays.sort(num1);
         
         for(int i = 0; i < num1.length-2; i++){
             if( i > 0 && num1[i] == num1[i-1]) continue;
@@ -41,7 +28,7 @@ The solution set must not contain duplicate triplets.
                  if( j > i+1 && num1[j] == num1[j-1]) continue;
                  for(int k = j+1; k < num1.length; k++){
                   if(k > j +1 && num1[k] == num1[k-1]) continue;  
-                   if (num[k] == 0- num1[i]-num1[j]){
+                   if (num1[k] == 0- num1[i]-num1[j]){
                        ArrayList<Integer> array = new ArrayList<Integer>();
                        array.add(num1[i]);
                        array.add(num1[j]);
