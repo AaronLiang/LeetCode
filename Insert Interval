@@ -9,3 +9,161 @@ Example 2:
 Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10],[12,16].
 
 This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
+
+
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    public ArrayList<Interval> insert(ArrayList<Interval> intervals, Interval newInterval) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(newInterval == null) return intervals;
+        ArrayList<Interval> result = new ArrayList<Interval>();
+           if(intervals.size() == 0) {
+            result.add(newInterval);
+               return result;
+          }
+            
+        int startPos = searchPosition(intervals, newInterval.start);
+        int endPos = searchPosition(intervals, newInterval.end);
+        
+        int newStart = 0;
+        if(startPos >= 0  && intervals.get(startPos).end >= newInterval.start){
+            newStart = intervals.get(startPos).start;
+        }else{
+            newStart = newInterval.start;
+            startPos++;
+        }
+        
+        int newEnd = 0;
+        if(endPos >= 0)
+            newEnd = Math.max(intervals.get(endPos).end , newInterval.end);
+        else 
+            newEnd = newInterval.end;
+            
+        for( int i = startPos ; i < endPos + 1 ; i++){
+            intervals.remove(startPos);
+        }
+        
+        intervals.add(startPos, new Interval(newStart, newEnd));
+        return intervals;
+        
+    }
+    
+    
+    public int searchPosition(ArrayList<Interval> intervals, int x){
+        int a = 0, b = intervals.size() -1;
+        while(a <= b){
+            int mid = (a + b) / 2;
+            if(intervals.get(mid).start == x) 
+                return mid;
+            else if( intervals.get(mid).start > x) 
+                b = mid - 1;
+            else a = mid + 1;
+        }
+        return b;
+    }
+}
+
+
+
+
+
+------------------------------------- solution -------------------------------------
+
+public static ArrayList<Interval> insert(ArrayList<Interval> intervals, Interval newInterval) {
+    // Start typing your Java solution below
+    // DO NOT write main() function
+    ArrayList<Interval> sol=new ArrayList<Interval>();
+    if(intervals.isEmpty()) {
+        sol.add(newInterval);
+        return sol;
+    }
+    Interval temp=new Interval(newInterval.start, newInterval.end);
+    int k=0;// decide where to insert the merged interval
+    for(int i=0;i<intervals.size();i++){
+        Interval cur=intervals.get(i);
+        int posLeft=getPos(newInterval.start,cur);
+        int posRight=getPos(newInterval.end,cur);
+        if(posLeft==0&&posRight==0){
+            temp.start=cur.start;
+            temp.end=cur.end;
+        }else if((posLeft==1&&posRight==1)||(posLeft==-1&&posRight==-1)){ //no overlapping at all, simply copy the original intervals to new solution list
+            sol.add(cur);
+            if(posLeft==1&&posRight==1){  
+                k++;
+            }
+        }else if(posLeft==-1&&posRight==0){
+            temp.start=Math.min(temp.start, cur.start);
+            temp.end=cur.end;
+        }else if(posLeft==0&&posRight==1){
+            temp.start=cur.start;
+            temp.end=newInterval.end;
+        }else if(posLeft==-1&&posRight==1){
+            temp.start=Math.min(temp.start,cur.start);
+            temp.end=Math.max(temp.end,cur.end);
+        }else{
+            continue;
+        }
+    }
+    sol.add(k, temp);
+    return sol;
+}
+//return -1 if i is at left to cur, 0 if i is in cur, or 1 if i is at right of cur
+private static int getPos(int i, Interval cur) {
+    if(i<=cur.end&&i>=cur.start){
+        return 0;
+    }else if(i<cur.start){
+        return -1;
+    }else{
+        return 1;
+    }
+
+}
+
+
+
+-------------------------------------Wrong solution by Myself-------------------------------------
+
+
+ public ArrayList<Interval> insert(ArrayList<Interval> intervals, Interval newInterval) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(newInterval == null) return intervals;
+        ArrayList<Interval> result = new ArrayList<Interval>();
+        if(intervals.size() == 0) {
+            result.add(newInterval);
+            return result;
+        }
+    
+        Interval temp;
+        boolean isOverlapping = false;
+        temp = intervals.get(0);
+        for(int i = 0 ; i < intervals.size(); i++){
+            if(!isOverlapping){
+                result.add(temp);
+                temp = intervals.get(i);
+            }
+            
+            if(newInterval.start > temp.end || newInterval.end < temp.start){
+                if( newInterval.end < temp.start){
+                   result.add(newInterval);
+                }
+                isOverlapping = false;
+                continue;
+            }else{
+                temp.start = Math.min(temp.start,newInterval.start);
+                temp.end = Math.max(temp.end,newInterval.end);
+                isOverlapping = true;
+            }  
+           
+        }
+        return result;
+    }
