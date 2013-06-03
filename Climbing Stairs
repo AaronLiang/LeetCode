@@ -1,0 +1,26 @@
+
+Climbing StairsApr 3 '122636 / 4852
+You are climbing a stair case. It takes n steps to reach to the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+public class Solution {
+    public int climbStairs(int n) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        
+        // f(n) = f(n-1) + f(n-2);
+        if ( n <= 2) return n;
+        int a = 2;
+        int b = 1;
+        for (int i = 3 ; i <= n ; i ++){
+            int temp = a;
+            a = a + b;
+            b = temp;
+            
+        }
+        return a;
+        
+    }
+
+}
