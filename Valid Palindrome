@@ -1,0 +1,102 @@
+
+Valid PalindromeJan 132911 / 9144
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+For example,
+"A man, a plan, a canal: Panama" is a palindrome.
+"race a car" is not a palindrome.
+
+Note:
+Have you consider that the string might be empty? This is a good question to ask during an interview.
+
+For the purpose of this problem, we define empty string as valid palindrome.
+
+
+
+public class Solution {
+    public boolean isPalindrome1(String s) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(s == null || s.equals("") || s.trim().equals("")) return true;
+        char[] ch =  s.trim().toCharArray();
+        int start = 0;
+        int end = ch.length-1;
+        char f,l;
+        while(start < end){
+            f = ch[start++];
+            l = ch[end--];
+            
+            while(!((f >= '0'&& f<= '9')|(f >= 'a'&& f<= 'z'))){
+               if(f >= 'A'&& f<= 'Z'){
+                    f = (char)(f +31);
+                    continue;
+               }
+               if(start > end )
+                    break;
+                f = ch[start++];
+            }
+            while(!((l >= '0'&& l<= '9')|(l >= 'a'&& l<= 'z'))){
+                if(l >= 'A'&& l<= 'Z'){
+                     l = (char)(f +31);
+                     continue;
+                }
+                if(start > end )
+                    break;
+                l = ch[end--];
+            }
+           
+            if( f != l )
+                return false;
+        }
+        return true;
+        
+    }
+    
+    public boolean isPalindrome(String s) {
+        if(s == null) return false;
+        if(s.equals("")) return true;
+        s = s.toLowerCase();
+        int f = -1;
+        int e = s.length();
+        boolean is = true;
+        while(f < e){
+            while(!Character.isLetter(s.charAt(++f)) && !Character.isDigit(s.charAt(f)) && f < s.length() - 1);
+            while(!Character.isLetter(s.charAt(--e)) && !Character.isDigit(s.charAt(e)) && e > 0);
+            
+            if(!Character.isLetter(s.charAt(e)) && !Character.isDigit(s.charAt(e))
+                && !Character.isLetter(s.charAt(f)) && !Character.isDigit(s.charAt(f))) break;
+            else if(s.charAt(f) != s.charAt(e)){
+                is = false;
+                break;
+            }
+            
+            
+        }
+        return is;
+        
+    }
+    
+    
+    boolean isPalindrome2(String s) {
+    // Start typing your C/C++ solution below
+    // DO NOT write int main() function
+    int i = 0, j = s.length()-1;
+    char[] ch = s.toCharArray();
+    while(i < j) {
+        if(!isAlphanumeric(ch[i])) ++i;
+        else if(!isAlphanumeric(ch[j])) --j;
+        else if(ch[i++] != ch[j--]) return false;
+    }
+
+    return true;
+}
+    
+    
+    boolean isAlphanumeric(char c) {
+    if(c >= 'A' && c <= 'Z') c += 32;
+    else if(c >= '0' && c <= '9' || c >= 'a' && c <= 'z') return true;
+    else return false;
+
+    return true;
+}
+}
