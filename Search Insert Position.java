@@ -1,4 +1,3 @@
-
 Search Insert Position Mar 3 '123811 / 7616
 Given a sorted array and a target value, 
 return the index if the target is found. 
@@ -28,3 +27,14 @@ public class Solution {
         return i;
     }
 }
+
+======================================================
+public int searchInsert(int[] A, int target) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        int i = 0;
+        for(; i < A.length ; i++){
+            if(target <= A[i]) break;
+        }
+        return i;
+    }
